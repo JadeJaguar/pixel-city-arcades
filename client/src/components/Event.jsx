@@ -1,59 +1,63 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import dates from '../data/dates'
 import '../css/Event.css'
 
-const Event = (props) => {
+// color is the neon color of the arcade. arcade is optional: pass it to show the arcade name.
+const Event = ({ event, color, arcade }) => {
 
-    const [event, setEvent] = useState([])
-    const [time, setTime] = useState([])
-    const [remaining, setRemaining] = useState([])
+    const [now, setNow] = useState(Date.now())
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const eventData = await EventsAPI.getEventsById(props.id)
-                setEvent(eventData)
-            }
-            catch (error) {
-                throw error
-            }
-        }) ()
-    }, [])
+    const startTime = new Date(event.date).getTime()
+    const ended = dates.hasEnded(event.date, now)
 
     useEffect(() => {
-        (async () => {
-            try {
-                const result = await dates.formatTime(event.time)
-                setTime(result)
-            }
-            catch (error) {
-                throw error
-            }
-        }) ()
-    }, [event])
+        // a past event never changes, so it needs no timer
+        if (startTime <= Date.now()) return
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const timeRemaining = await dates.formatRemainingTime(event.remaining)
-                setRemaining(timeRemaining)
-                dates.formatNegativeTimeRemaining(remaining, event.id)
-            }
-            catch (error) {
-                throw error
-            }
-        }) ()
-    }, [event])
+        const timer = setInterval(() => setNow(Date.now()), 1000)
+
+        return () => clearInterval(timer)
+    }, [startTime])
 
     return (
-        <article className='event-information'>
-            <img src={event.image} />
+        <article
+            className={`event-information${ended ? ' event-ended' : ''}`}
+            style={{ '--arcade': color }}
+        >
+            <img className='event-poster' src={event.image} alt='' />
 
-            <div className='event-information-overlay'>
-                <div className='text'>
-                    <h3>{event.title}</h3>
-                    <p><i className="fa-regular fa-calendar fa-bounce"></i> {event.date} <br /> {time}</p>
-                    <p id={`remaining-${event.id}`}>{remaining}</p>
-                </div>
+            <div className='event-text'>
+                <p className='event-category'>{event.category}</p>
+                <h3>{event.title}</h3>
+
+                <dl className='event-facts'>
+                    <div>
+                        <dt>When</dt>
+                        <dd>{dates.formatDate(event.date)}</dd>
+                    </div>
+                    <div>
+                        <dt>Game</dt>
+                        <dd>{event.game}</dd>
+                    </div>
+                    {
+                        arcade &&
+                        <div>
+                            <dt>Where</dt>
+                            <dd><Link to={`/locations/${arcade.id}`}>{arcade.name}</Link></dd>
+                        </div>
+                    }
+                </dl>
+
+                <p className='event-description'>{event.description}</p>
+
+                {
+                    ended
+                        ? <p className='event-countdown event-countdown-ended'>This event has ended</p>
+                        : <p className='event-countdown'>
+                            <span>Starts in</span> {dates.formatRemainingTime(startTime - now)}
+                        </p>
+                }
             </div>
         </article>
     )

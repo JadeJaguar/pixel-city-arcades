@@ -1,57 +1,100 @@
+/* an event card looks like an arcade game card, with a neon edge in the color of its arcade */
 .event-information {
-    position: relative;
-    width: 350px;
-    height: 350px;
-    padding: 0px;
-    margin: 20px;
-    border: 2px solid white;
-    border-radius: 0px;
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    height: 100%;
+    border: 2px solid var(--arcade);
+    background-color: var(--panel);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--arcade) 45%, transparent);
 }
 
-.event-information img {
+.event-poster {
     width: 100%;
     height: 100%;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
+    border-right: 2px solid var(--arcade);
 }
 
-.event-information-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 100%;
-    right: 0;
-    background-color: var(--primary);
-    overflow: hidden;
-    width: 0;
-    height: 100%;
-    transition: 0.5s ease;
+.event-text {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: 1rem 1.25rem 1.1rem;
 }
 
-.event-information:hover .event-information-overlay {
-    width: 100%;
-    left: 0;
+.event-category {
+    font-family: var(--font-title);
+    font-size: 0.6rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: var(--arcade);
 }
 
-.text {
-    position: absolute;
-    overflow: hidden;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.event-facts {
+    display: grid;
+    gap: 0.15rem;
+    font-size: 0.95rem;
 }
 
-.text i {
-    margin-right: 10px;
+.event-facts div {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
 }
 
-.text p {
-    color: white;
-    margin-top: 10px;
+.event-facts dt {
+    color: var(--soft-lilac);
 }
 
-.negative-time-remaining {
-    background-color: red;
-    color: white;
-    font-weight: 700;
-    padding: 10px;
-    text-align: center;
+.event-description {
+    font-size: 0.95rem;
+}
+
+.event-countdown {
+    margin-top: auto;
+    padding-top: 0.6rem;
+    border-top: 1px dashed color-mix(in srgb, var(--arcade) 60%, transparent);
+    color: var(--sunset-yellow);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.event-countdown span {
+    font-weight: 400;
+    color: var(--soft-lilac);
+}
+
+/* past events: grey edge, grey poster, and softer text */
+.event-ended {
+    --arcade: #8F86AD;
+    box-shadow: none;
+    background-color: rgba(26, 18, 56, 0.8);
+}
+
+.event-ended .event-poster {
+    filter: grayscale(1) brightness(0.6);
+}
+
+.event-ended h3,
+.event-ended .event-facts,
+.event-ended .event-description {
+    color: var(--soft-lilac);
+}
+
+.event-ended h3 {
+    text-decoration: line-through;
+}
+
+.event-countdown-ended {
+    color: var(--soft-white);
+}
+
+@media (max-width: 480px) {
+    .event-information {
+        grid-template-columns: 6rem 1fr;
+    }
+
+    .event-text {
+        padding: 0.85rem 1rem 1rem;
+    }
 }
