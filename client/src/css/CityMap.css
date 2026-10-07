@@ -1,0 +1,97 @@
+/* The positions of the buildings are in src/data/mapConfig.js */
+
+.city-map {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    /* the top buildings stick out above the map, so leave room for them */
+    margin-top: 9%;
+}
+
+.city-map-base {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid var(--deep-purple);
+    border-radius: 6px;
+    transition: filter 0.25s ease;
+}
+
+.map-building {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    aspect-ratio: 1;
+    /* put the base of the building on the center of its plot */
+    transform: translate(-50%, calc(var(--base-y) * -1));
+    transform-origin: 50% var(--base-y);
+    transition: transform 0.25s ease, filter 0.25s ease;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.map-building img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.map-label {
+    position: absolute;
+    left: 50%;
+    top: 94%;
+    transform: translateX(-50%);
+    display: grid;
+    justify-items: center;
+    padding: 0.4rem 0.75rem;
+    border: 2px solid var(--glow);
+    background-color: var(--night-navy);
+    color: var(--soft-white);
+    font-size: 0.8rem;
+    line-height: 1.35;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.map-label strong {
+    font-size: 0.95rem;
+}
+
+/* the pop out effect: the chosen building grows, lifts, and glows */
+.map-building:hover,
+.map-building:focus-visible {
+    z-index: 2;
+    transform: translate(-50%, calc(var(--base-y) * -1 - 4%)) scale(1.08);
+    filter: drop-shadow(0 0 14px var(--glow)) drop-shadow(0 0 4px var(--glow));
+}
+
+.map-building:hover .map-label,
+.map-building:focus-visible .map-label {
+    opacity: 1;
+}
+
+/* the spotlight: everything else gets a little darker */
+.city-map:has(.map-building:hover, .map-building:focus-visible) .city-map-base {
+    filter: brightness(0.55);
+}
+
+.city-map:has(.map-building:hover, .map-building:focus-visible) .map-building:not(:hover, :focus-visible) {
+    filter: brightness(0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .city-map-base,
+    .map-building,
+    .map-label {
+        transition: none;
+    }
+
+    /* keep the glow, but do not grow or lift */
+    .map-building:hover,
+    .map-building:focus-visible {
+        transform: translate(-50%, calc(var(--base-y) * -1));
+    }
+}
