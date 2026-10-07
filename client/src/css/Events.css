@@ -1,0 +1,54 @@
+.all-events {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.event-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.filter-buttons button {
+    --arcade: var(--soft-white);
+    padding: 0.55rem 1rem;
+    border: 2px solid var(--arcade);
+    background-color: var(--night-navy);
+    color: var(--soft-white);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filter-buttons button:hover {
+    background-color: var(--deep-purple);
+}
+
+.filter-buttons button[aria-pressed='true'] {
+    background-color: var(--arcade);
+    color: var(--night-navy);
+    font-weight: 800;
+}
+
+.sort-select {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--soft-lilac);
+}
+
+.sort-select select {
+    padding: 0.55rem 0.75rem;
+    border: 2px solid var(--soft-lilac);
+    background-color: var(--night-navy);
+    color: var(--soft-white);
+    font: inherit;
+}
