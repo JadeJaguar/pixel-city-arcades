@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRoutes, Link } from 'react-router-dom'
+import { useRoutes, Link, NavLink } from 'react-router-dom'
 import Locations from './pages/Locations'
 import LocationEvents from './pages/LocationEvents'
 import Events from './pages/Events'
@@ -12,24 +12,22 @@ const App = () => {
       element: <Locations />
     },
     {
-      path: '/echolounge',
-      element: <LocationEvents index={1} />
-    },
-    {
-      path: '/houseofblues',
-      element: <LocationEvents index={2} />
-    },
-    {
-      path: '/pavilion',
-      element: <LocationEvents index={3} />
-    },
-    {
-      path: '/americanairlines',
-      element: <LocationEvents index={4} />
+      path: '/locations/:id',
+      element: <LocationEvents />
     },
     {
       path: '/events',
       element: <Events />
+    },
+    {
+      path: '*',
+      element: (
+        <div className='page-message'>
+          <h2>Page not found</h2>
+          <p>This page does not exist.</p>
+          <Link to='/' className='text-link'>Back to the map</Link>
+        </div>
+      )
     }
   ])
 
@@ -37,12 +35,12 @@ const App = () => {
     <div className='app'>
 
       <header className='main-header'>
-        <h1>UnityGrid Plaza</h1>
+        <h1><Link to='/'>Pixel City Arcades</Link></h1>
 
-        <div className='header-buttons'>
-          <Link to='/' role='button'>Home</Link>
-          <Link to='/events' role='button'>Events</Link>
-        </div>
+        <nav className='header-buttons' aria-label='Main'>
+          <NavLink to='/' end>Map</NavLink>
+          <NavLink to='/events'>All events</NavLink>
+        </nav>
       </header>
 
       <main>

@@ -1,33 +1,48 @@
 .app {
-    background: url('./assets/unitygrid.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-}
-
-header {
-    padding: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    width: min(100% - 2rem, 72rem);
+    margin-inline: auto;
+    padding-bottom: 4rem;
 }
 
 .main-header {
-    height: 30vh;
-    width: 85vw;
-    align-items: flex-end;
-    position: relative;
-    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.75rem 0 1.25rem;
+}
+
+.main-header h1 {
+    font-family: var(--font-title);
+    font-size: clamp(1rem, 3.6vw, 1.75rem);
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.main-header h1 a {
+    color: var(--soft-white);
+    text-decoration: none;
+    text-shadow: 0 0 12px var(--hot-magenta), 3px 3px 0 var(--hot-magenta);
 }
 
 .header-buttons {
-    width: 30%;
     display: flex;
-    justify-content: space-around;
+    gap: 1.5rem;
 }
 
-.header-buttons button {
-    margin-right: 20px;
-    margin-left: 20px;
+.header-buttons a {
+    padding: 0.35rem 0;
+    border-bottom: 3px solid transparent;
+    color: var(--soft-white);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.header-buttons a:hover {
+    border-bottom-color: var(--soft-lilac);
+}
+
+.header-buttons a.active {
+    border-bottom-color: var(--electric-cyan);
 }
